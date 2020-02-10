@@ -3,6 +3,7 @@ import { View, StatusBar } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
+import AppContainer from './mainNavigation';
 import store from '../store/create_store';
 
 export default class Navigation extends React.Component {
@@ -41,7 +42,7 @@ export default class Navigation extends React.Component {
         return (
           <Provider store = { store }>
             <View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-              {/*<AppContainer />*/}
+              <AppContainer />
             </View>
           </Provider>
         );
