@@ -4,6 +4,7 @@ import BottomNavigation, {
 } from 'react-native-material-bottom-navigation';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ToDoAll from '../containers/todoAll';
 
 const tabDetail = [
   {
@@ -58,15 +59,15 @@ export default class AppContainer extends React.Component {
               const activeTab = this.state.activeTab;
 
               if (activeTab === 'ALL') {
-                return <Text>{ activeTab }</Text>;
+                return <ToDoAll showNewTodo = { true } screen = 'All' />;
               }
 
               if (activeTab === 'ACTIVE') {
-                return <Text>{ activeTab }</Text>;
+                return <ToDoAll showNewTodo = { true } screen = 'Active' />;
               }
 
               if (activeTab === 'COMPLETED') {
-                return <Text>{ activeTab }</Text>;
+                return <ToDoAll showNewTodo = { true } screen = 'Completed' />;
               }
             })()
           }
