@@ -2,7 +2,7 @@ import * as React from 'react';
 import BottomNavigation, {
   FullTab
 } from 'react-native-material-bottom-navigation';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const tabDetail = [
@@ -53,7 +53,23 @@ export default class AppContainer extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          {/* Your screen contents depending on current tab. */}
+          {
+            (() => {
+              const activeTab = this.state.activeTab;
+
+              if (activeTab === 'ALL') {
+                return <Text>{ activeTab }</Text>;
+              }
+
+              if (activeTab === 'ACTIVE') {
+                return <Text>{ activeTab }</Text>;
+              }
+
+              if (activeTab === 'COMPLETED') {
+                return <Text>{ activeTab }</Text>;
+              }
+            })()
+          }
         </View>
         <BottomNavigation
           activeTab={this.state.activeTab}
