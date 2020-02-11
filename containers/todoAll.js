@@ -5,6 +5,7 @@ import {View, Text} from 'react-native';
 import AddToDoButton from '../components/addTodoButton'
 import NewToDo from '../components/newTodo'
 import { addTodo, deleteTodo, updateTodo } from '../store/reducers/todoReducer'
+import ToDoItem from '../components/todo/todoItem/todoItem'
 
 class ToDoAll extends React.Component {
 
@@ -31,6 +32,21 @@ class ToDoAll extends React.Component {
     })
   }
 
+  screenFilterTodos = () => {
+    const{ screen, todos } = this.props
+    if( screen == "Active"){
+      return todos.filter(function(todo) {
+        return !todo.completed;
+      })
+    }else if(screen == "Completed" ){
+      return todos.filter(function(todo) {
+        return todo.completed;
+      })
+    }else{
+      return todos
+    }
+  }
+
   render() {
     // 状態を保存するstate
     // newTodoがtrueになるとリストがTODOリストが1件現れる
@@ -45,6 +61,24 @@ class ToDoAll extends React.Component {
       updateTodo
     } = this.props;
 
+    let listItem = []
+
+    // vueでいうところのwatch
+    // stateのtodosに変化があればここを再起的に通る
+    // todosはarrayでユーザーが新しいtodoリストを作成する度に1件ずつ増える
+    if(todos.length > 0){
+      let scrTodos = this.screenFilterTodos();
+
+      listItem = scrTodos.map( (todo, index) =>
+        <ToDoItem
+          key = { index }
+          todo = { todo }
+          deleteTodo = { deleteTodo }
+          updateTodo = { updateTodo }
+        />
+      )
+    }
+
     return (
       <Container>
         <Header>
@@ -53,6 +87,10 @@ class ToDoAll extends React.Component {
           </Body>
         </Header>
         <Content>
+          {
+            // listItemのlengthが1件以上あればToDoItem要素を表示する
+            listItem
+          }
           {
             // 新しいToDoリストを作るためのelement
             newTodo &&
