@@ -19,7 +19,13 @@ export default class ToDoItem extends React.Component {
         </Body>
         <Button
           transparent
-          onPress = { () => deleteTodo( todo ) }
+          onPress = {
+            () => {
+              // completedをtrueに変える
+              // completedをtrueに変えた後はCheckBoxのcheckedがtrueになりチェック済みになる
+              deleteTodo( todo )
+            }
+          }
         >
           <Icon name = { 'md-trash' } />                
         </Button>
