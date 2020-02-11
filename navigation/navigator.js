@@ -4,7 +4,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import AppContainer from './mainNavigation';
-import store from '../store/create_store';
+import store from '../store/createStore';
 
 export default class Navigation extends React.Component {
   constructor(props) {

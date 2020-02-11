@@ -9,6 +9,7 @@ export default class NewToDo extends React.Component {
     const completed = false
     const createdAt = ''
 
+    // titleはユーザーが入力した物
     this.state = {
       title,
       completed,
@@ -17,6 +18,9 @@ export default class NewToDo extends React.Component {
   }
 
   setStateUtil = (property, value) => {
+    // { "completed": false, "createdAt": "", "title": "todo1件分のリスト", }
+    // ここでtitleもしくはcompletedがtrueかfalseをstateに保存
+    // Inputからの場合はtitleを新規登録
     this.setState({
       [property]: value,
     })
