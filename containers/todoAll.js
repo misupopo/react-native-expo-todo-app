@@ -3,6 +3,7 @@ import { Container, Header, Title, Content, Body } from 'native-base'
 import {connect} from 'react-redux'
 import {View, Text} from 'react-native';
 import AddToDoButton from '../components/addTodoButton'
+import NewToDo from '../components/newTodo'
 
 class ToDoAll extends React.Component {
 
@@ -15,13 +16,21 @@ class ToDoAll extends React.Component {
     }
   }
 
+  saveToDoData = (todo) => {
+    this.addNewToDo(show = false)
+    // this.props.addTodo(todo)
+  }
+
   // emitのような物がトリガーになったときに実行される
   addNewToDo = (show) => {
-    console.log('show');
-    console.log(show);
+    this.setState({
+      newTodo: show
+    })
   }
 
   render() {
+    const { newTodo } = this.state;
+
     const {
       todos,
       showNewTodo,
@@ -38,9 +47,21 @@ class ToDoAll extends React.Component {
           </Body>
         </Header>
         <Content>
-          <Text>text</Text>
+          {
+            newTodo &&
+            <NewToDo
+              onPress = { this.saveToDoData }
+              onCancel = { this.addNewToDo }
+            />
+          }
         </Content>
-        <AddToDoButton onAddNewToDo = { this.addNewToDo }  />
+        {
+          (() => {
+            if (showNewTodo) {
+              return <AddToDoButton onAddNewToDo = { this.addNewToDo }  />
+            }
+          })()
+        }
       </Container>
     )
   }
