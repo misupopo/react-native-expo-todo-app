@@ -38,7 +38,11 @@ export default class AppContainer extends React.Component {
   }
 
   renderIcon = icon => ({ isActive }) => (
-    <Icon size={24} color="white" name={icon} />
+    <View style={[
+
+      ]}>
+      <Icon size={20} color="white" name={icon} />
+    </View>
   )
 
   renderTab = ({ tab, isActive }) => (
@@ -73,6 +77,14 @@ export default class AppContainer extends React.Component {
           }
         </View>
         <BottomNavigation
+          style={
+            [
+              {
+                height: 90,
+                paddingTop: 10
+              }
+            ]
+          }
           activeTab={this.state.activeTab}
           onTabPress={newTab => this.setState({ activeTab: newTab.key })}
           renderTab={this.renderTab}
