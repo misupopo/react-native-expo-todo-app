@@ -27,8 +27,16 @@ export default class NewToDo extends React.Component {
   }
 
   render() {
-    const {completed, title} = this.state;
-    const {onPress, onCancel} = this.props;
+    const {
+      completed,
+      title
+    } = this.state;
+
+    const {
+      onPress,
+      onCancel
+    } = this.props;
+
     // const todoText = 'What needs to be done?';
     const todoText = 'やらなければいけないことを追加';
 

@@ -4,11 +4,11 @@ import {connect} from 'react-redux'
 import {View, Text} from 'react-native';
 import AddToDoButton from '../components/addTodoButton'
 import NewToDo from '../components/newTodo'
-import { addTodo, deleteTodo, updateTodo } from '../store/reducers/todoReducer'
+import { addTodo, deleteTodo, updateTodo, getTodo } from '../store/reducers/todoReducer'
 import ToDoItem from '../components/todo/todoItem/todoItem'
+import asyncStorageService from '../service/asyncStorageService';
 
 class ToDoAll extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -18,10 +18,22 @@ class ToDoAll extends React.Component {
     }
   }
 
-  saveToDoData = (todoData) => {
+  saveToDoData = async (todoData) => {
     this.addNewToDo(show = false)
     // mapDispatchToPropsのaddTodoを呼び出す
     this.props.addTodo(todoData)
+
+    const {
+      todos
+    } = this.props;
+
+    const createTodoList = [
+      todoData,
+      ...todos,
+    ];
+
+    // データ永続化のためstorageに保存
+    await asyncStorageService.setItem('todoData', createTodoList);
   }
 
   // emitのような物がトリガーになったときに実行される
@@ -33,17 +45,31 @@ class ToDoAll extends React.Component {
   }
 
   screenFilterTodos = () => {
-    const{ screen, todos } = this.props
-    if( screen == "Active"){
-      return todos.filter(function(todo) {
+    const {screen, todos} = this.props
+    if (screen == "Active") {
+      return todos.filter(function (todo) {
         return !todo.completed;
       })
-    }else if(screen == "Completed" ){
-      return todos.filter(function(todo) {
+    } else if (screen == "Completed") {
+      return todos.filter(function (todo) {
         return todo.completed;
       })
-    }else{
+    } else {
       return todos
+    }
+  }
+
+  // 初期化時に起動する
+  async componentDidMount() {
+    try {
+      const todoData = await asyncStorageService.getItem('todoData');
+
+      // storageの初期データをを登録する
+      todoData.map((element) => {
+        this.props.addTodo(element)
+      });
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -67,7 +93,7 @@ class ToDoAll extends React.Component {
     // stateのtodosに変化があればここを再起的に通る
     // todosはarrayでユーザーが新しいtodoリストを作成する度に1件ずつ増える
     if(todos.length > 0){
-      let scrTodos = this.screenFilterTodos();
+      let scrTodos = this.screenFilterTodos(todos);
 
       listItem = scrTodos.map( (todo, index) =>
         <ToDoItem
